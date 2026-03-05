@@ -1,51 +1,37 @@
 "use client"
 
 import type React from "react"
+import { createContext, useContext, useEffect } from "react"
 
-import { createContext, useContext, useState, useEffect } from "react"
-
-type Theme = "light" | "dark" | "system"
+type Theme = "light"
 
 interface ThemeContextProps {
   theme: Theme
-  setTheme: (theme: Theme) => void
 }
 
 const ThemeContext = createContext<ThemeContextProps>({
-  theme: "system",
-  setTheme: () => {},
+  theme: "light",
 })
 
 export const ThemeProvider = ({
   attribute,
-  defaultTheme,
-  enableSystem,
-  disableTransitionOnChange,
   children,
 }: {
   attribute: string
-  defaultTheme: Theme
-  enableSystem: boolean
-  disableTransitionOnChange: boolean
   children: React.ReactNode
 }) => {
-  const [theme, setTheme] = useState<Theme>(defaultTheme)
 
   useEffect(() => {
-    if (enableSystem) {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-      setTheme(systemTheme)
-    }
-  }, [enableSystem])
+    document.documentElement.setAttribute(attribute, "light")
+  }, [attribute])
 
-  useEffect(() => {
-    document.documentElement.setAttribute(attribute, theme)
-  }, [theme, attribute])
-
-  return <ThemeContext.Provider value={{ theme, setTheme }}>{children}</ThemeContext.Provider>
+  return (
+    <ThemeContext.Provider value={{ theme: "light" }}>
+      {children}
+    </ThemeContext.Provider>
+  )
 }
 
 export const useTheme = () => {
   return useContext(ThemeContext)
 }
-

@@ -5,6 +5,7 @@ import Skills from "@/components/Skills";
 import Contact from "@/components/contact";
 import BackgroundSwitcher from "@/components/background-switcher";
 import Education from "@/components/Education";
+import ExperienceTimeline from "@/components/Experience";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <BackgroundSwitcher />
       <Hero />
       <About />
+      <ExperienceTimeline />
       <Skills />
       <Projects />
       <Education />
